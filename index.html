@@ -26,6 +26,7 @@
     </div>
 
     <script>
+        // Função de cálculo
         document.getElementById('form').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -47,6 +48,17 @@
                 document.getElementById('resultado').innerHTML = `<h3>Resultado:</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
             });
         });
+
+        // Registro do Service Worker para PWA/offline
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('offline.js')
+            .then((registration) => {
+                console.log('Service Worker registrado com sucesso:', registration);
+            })
+            .catch((error) => {
+                console.log('Falha ao registrar o Service Worker:', error);
+            });
+        }
     </script>
 </body>
 </html>
