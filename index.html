@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Medicamentos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; }
+        input, select, button { width: 100%; padding: 10px; margin: 5px 0; }
+        button { background-color: #4CAF50; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculadora de Medicamentos</h2>
+        <form id="form">
+            <input type="text" id="medicamento" placeholder="Nome do Medicamento" required>
+            <input type="number" id="idade" placeholder="Idade (anos)" required>
+            <input type="number" id="peso" placeholder="Peso (kg)" required>
+            <input type="number" id="conc" placeholder="Concentração (mg/mL)" required>
+            <input type="number" id="gttml" placeholder="Gotas por mL" value="20" required>
+            <button type="submit">Calcular</button>
+        </form>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        document.getElementById('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var medicamento = document.getElementById('medicamento').value;
+            var idade = document.getElementById('idade').value;
+            var peso = document.getElementById('peso').value;
+            var conc = document.getElementById('conc').value;
+            var gttml = document.getElementById('gttml').value;
+
+            fetch('/calcular', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ medicamento, idade, peso, conc, gttml })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('resultado').innerHTML = `<h3>Resultado:</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            });
+        });
+    </script>
+</body>
+</html>
